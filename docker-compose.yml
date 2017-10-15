@@ -1,0 +1,12 @@
+version: "2"
+services:
+  chat:
+    image: erlang:latest
+    container_name: anyway
+    volumes:
+      - .:/anyway
+    working_dir: /anyway
+    command: make run
+    tty: true
+    ports:
+      - "7778:7778"
