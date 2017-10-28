@@ -2,3 +2,5 @@
 _rel
 deps
 ebin
+docker/data/*
+!docker/data/.gitkeep

@@ -10,3 +10,23 @@ services:
     tty: true
     ports:
       - "7778:7778"
+
+  ejabberd:
+    image: rroemhild/ejabberd
+    container_name: ejabberd
+    ports:
+      - "5222:5222"
+      - "5269:5269"
+      - "5280:5280"
+    environment:
+      - "XMPP_DOMAIN=foo.com"
+      - "ERLANG_NODE=ejabberd"
+      - "EJABBERD_ADMIN=admin@foo.com"
+      - "EJABBERD_ADMIN_PWD=pass123"
+      - "TZ=Europe/Warsaw"
+      - "LOGLEVEL=5"
+    volumes:
+      - ./docker/data/database:/opt/ejabberd/database
+      - ./docker/data/ssl:/opt/ejabberd/ssl
+      - ./docker/data/upload:/opt/ejabberd/upload
+      - ./docker/data/backup:/opt/ejabberd/backup
