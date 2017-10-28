@@ -27,5 +27,7 @@ services:
       - "LOGLEVEL=5"
       - "EJABBERD_STARTTLS=false"
       - "EJABBERD_USERS=kacper@foo.com:pass123"
+    tty: true
     volumes:
       - ./docker/data/database:/opt/ejabberd/database
+      - ./docker/data/ssl:/opt/ejabberd/ssl
