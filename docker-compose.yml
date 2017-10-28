@@ -25,8 +25,7 @@ services:
       - "EJABBERD_ADMIN_PWD=pass123"
       - "TZ=Europe/Warsaw"
       - "LOGLEVEL=5"
+      - "EJABBERD_STARTTLS=false"
+      - "EJABBERD_USERS=kacper@foo.com:pass123"
     volumes:
       - ./docker/data/database:/opt/ejabberd/database
-      - ./docker/data/ssl:/opt/ejabberd/ssl
-      - ./docker/data/upload:/opt/ejabberd/upload
-      - ./docker/data/backup:/opt/ejabberd/backup
