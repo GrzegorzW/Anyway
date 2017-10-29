@@ -14,6 +14,7 @@ services:
   ejabberd:
     image: rroemhild/ejabberd
     container_name: ejabberd
+    tty: true
     ports:
       - "5222:5222"
       - "5269:5269"
@@ -26,11 +27,9 @@ services:
       - "TZ=Europe/Warsaw"
       - "LOGLEVEL=5"
       - "EJABBERD_STARTTLS=false"
+      - "EJABBERD_MOD_MUC_ADMIN=true"
       - "EJABBERD_GROUPS=all@foo.com"
       - "EJABBERD_USERS=kacper@foo.com:pass123"
-      - "EJABBERD_GROUP_MEMBERS=admin@foo.com:all@foo.com kacper@foo.com:all@foo.com"
-
-    tty: true
     volumes:
       - ./docker/data/database:/opt/ejabberd/database
       - ./docker/data/ssl:/opt/ejabberd/ssl
