@@ -1,6 +1,6 @@
 -module(anyway_auth).
 
--export([register_user/1, login/2]).
+-export([register_user/1]).
 
 -include("anyway_user.hrl").
 
@@ -27,15 +27,3 @@ register_user(UserData) when is_record(UserData, user_registration_data) ->
   User = create_user(UserData),
   anyway_users:insert(User),
   erlang:iolist_to_binary([User#user.token]).
-
-check_password(PasswordToCheck, User) when is_record(User, user) ->
-  User#user.password =:= hash_password(PasswordToCheck, User#user.salt).
-
-login(User, Password) when is_record(User, user) ->
-  true = check_password(Password, User),
-  erlang:iolist_to_binary([User#user.token]);
-login(user_not_found, _Password) ->
-  throw(user_not_found);
-login(Username, Password) ->
-  User = anyway_users:get_by_username(Username),
-  login(User, Password).
