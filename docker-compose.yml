@@ -12,24 +12,22 @@ services:
       - "7778:7778"
 
   ejabberd:
-    image: rroemhild/ejabberd
+    build: docker/ejabberd
     container_name: ejabberd
     tty: true
     ports:
-      - "5222:5222"
-      - "5269:5269"
-      - "5280:5280"
+      - 5222:5222
+      - 5269:5269
+      - 5280:5280
     environment:
-      - "XMPP_DOMAIN=foo.com"
-      - "ERLANG_NODE=ejabberd"
-      - "EJABBERD_ADMIN=admin@foo.com"
-      - "EJABBERD_ADMIN_PWD=pass123"
-      - "TZ=Europe/Warsaw"
-      - "LOGLEVEL=5"
-      - "EJABBERD_STARTTLS=false"
-      - "EJABBERD_MOD_MUC_ADMIN=true"
-      - "EJABBERD_GROUPS=all@foo.com"
-      - "EJABBERD_USERS=kacper@foo.com:pass123"
+      - XMPP_DOMAIN=anyway.com
+      - EJABBERD_ADMIN=admin@anyway.com
+      - EJABBERD_ADMIN_PWD=pass123
+      - TZ=Europe/Warsaw
+      - LOGLEVEL=5
+      - EJABBERD_STARTTLS=false
+      - EJABBERD_MOD_MUC_ADMIN=true
+      - EJABBERD_USERS=kacper@anyway.com:pass123
     volumes:
       - ./docker/data/database:/opt/ejabberd/database
       - ./docker/data/ssl:/opt/ejabberd/ssl
