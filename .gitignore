@@ -3,4 +3,5 @@ _rel
 deps
 ebin
 docker/data/*
+rel/extra.config
 !docker/data/.gitkeep

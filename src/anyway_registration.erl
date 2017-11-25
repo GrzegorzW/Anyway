@@ -26,6 +26,7 @@ init(Req0 = #{method := <<"POST">>}, State) ->
       Res = json_response(400, Json, Req0),
       {ok, Res, State}
   end;
+
 init(Req0, State) ->
   Json = jiffy:encode(#{<<"error">> => #{<<"reason">> => <<"method not allowed">>}}),
   Res = json_response(405, Json, Req0),
@@ -33,14 +34,12 @@ init(Req0, State) ->
 
 register_user(UserData) when is_record(UserData, user_registration_data) ->
   validate(UserData),
-  Token = anyway_auth:register_user(UserData),
-  {ok, Token};
-register_user(_Body) ->
-  {error, <<"username and password is required">>}.
+  anyway_users:register(UserData),
+  ok.
 
-handle_registration_result({ok, Token}, Req0, State) ->
-  Json = jiffy:encode(#{<<"ok">> => #{<<"token">> => Token}}),
-  Res = json_response(201, Json, Req0),
+handle_registration_result(ok, Req0, State) ->
+  Json = jiffy:encode(<<"ok">>),
+  Res = json_response(200, Json, Req0),
   {ok, Res, State};
 handle_registration_result({error, Reason}, Req0, State) ->
   Json = jiffy:encode(#{<<"error">> => #{<<"reason">> => Reason}}),
@@ -56,8 +55,13 @@ validate(#user_registration_data{
   first_name = FirstName,
   last_name = LastName
 }) ->
-  RequiredFields = [{Username, username}, {Password, password}, {FirstName, first_name}, {LastName, last_name}],
-  validate_required_fields(RequiredFields).
+  Fields = [
+    {Username, username},
+    {Password, password},
+    {FirstName, first_name},
+    {LastName, last_name}
+  ],
+  validate_required_fields(Fields).
 
 validate_required_fields([{Value, FieldName} | Tail]) ->
   throw_if_missing(Value, FieldName),
@@ -76,4 +80,3 @@ throw_if_empty(<<"">> = Value, FieldName) when is_binary(Value) ->
   throw({validation_error, erlang:iolist_to_binary([io_lib:format("The field '~p' cannot be empty.", [FieldName])])});
 throw_if_empty(Value, _FieldName) when is_binary(Value) ->
   ok.
-

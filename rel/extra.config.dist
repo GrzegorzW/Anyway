@@ -1,0 +1,6 @@
+[
+  {anyway, [
+    {ejabberd_auth, "jid:password"},
+    {ejabberd_domain, "anyway.com"}
+  ]}
+].

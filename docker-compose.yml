@@ -1,6 +1,6 @@
 version: "2"
 services:
-  chat:
+  admin:
     image: erlang:latest
     container_name: anyway
     volumes:
@@ -8,8 +8,9 @@ services:
     working_dir: /anyway
     command: make run
     tty: true
+    restart: always
     ports:
-      - "7778:7778"
+      - "7779:7778"
 
   ejabberd:
     build: docker/ejabberd
@@ -28,6 +29,7 @@ services:
       - EJABBERD_STARTTLS=false
       - EJABBERD_MOD_MUC_ADMIN=true
       - EJABBERD_USERS=kacper@anyway.com:pass123
+    restart: always
     volumes:
       - ./docker/data/database:/opt/ejabberd/database
       - ./docker/data/ssl:/opt/ejabberd/ssl
